@@ -26,5 +26,6 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QVector<Task*>  mTasks;
+    void keyPressEvent(QKeyEvent* event);
 };
 #endif // MAINWINDOW_H

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 #include "QInputDialog"
+#include "QKeyEvent"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow), mTasks()
 {
@@ -18,13 +19,10 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::addTask() {
-    bool ok;
-    QString name = QInputDialog::getText(this,
-                                         tr("Add task"),
-                                         tr("Task name"),
-                                         QLineEdit::Normal,
-                                         tr("Untitled task"),
-                                         &ok);
+
+    bool ok = !ui->taskCreator->text().isEmpty();
+    QString name  = ui->taskCreator->text();
+
     if(ok && !name.isEmpty()){
         qDebug() << "Adding task ";
         Task* task = new Task(name);
@@ -64,4 +62,12 @@ void MainWindow::updateStatus() {
     ui->statusLabel->setText(
                 QString("Status: %1 todo / %2 completed").arg(remainingTasks).arg(completedCount)
                 );
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event){
+    if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter){
+        qDebug() << "Enter Key Pressed";
+        MainWindow::addTask();
+        ui->taskCreator->clear();
+    }
 }

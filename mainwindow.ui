@@ -38,6 +38,16 @@
        </spacer>
       </item>
       <item>
+       <widget class="QLineEdit" name="taskCreator">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="placeholderText">
+         <string>Create Task Here...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="addTaskButton">
         <property name="text">
          <string>Add Task</string>
