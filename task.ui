@@ -37,14 +37,14 @@
    <item>
     <widget class="QPushButton" name="editButton">
      <property name="text">
-      <string>editButton</string>
+      <string>edit</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QPushButton" name="removeButton">
      <property name="text">
-      <string>removeButton</string>
+      <string>remove</string>
      </property>
     </widget>
    </item>

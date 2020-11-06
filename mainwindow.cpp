@@ -4,17 +4,15 @@
 #include "QInputDialog"
 #include "QKeyEvent"
 
-MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow), mTasks()
-{
-    //set stylesheeet
-    QFile file(":/light.qss");
-    file.open(QFile::ReadOnly | QFile::Text);
-    QTextStream stream(&file);
-    this->setStyleSheet(stream.readAll());
-
+MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow), mTasks(), darkMode(false)
+{  
     ui->setupUi(this);
 
+    //sets stylesheet to lightmode by default
+    darkToggle(&darkMode);
+
     connect(ui->addTaskButton, &QPushButton::clicked, this, &MainWindow::addTask);
+    connect(ui->darkModeToggle, &QCheckBox::toggled, this, &MainWindow::DarkModeToggle);
     updateStatus();
 }
 
@@ -76,4 +74,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         MainWindow::addTask();
         ui->taskCreator->clear();
     }
+}
+
+void MainWindow::DarkModeToggle(bool dark){
+    darkToggle(&dark);
+}
+
+void MainWindow::darkToggle(bool* dark){
+
+    QFile file(":/light.qss");
+
+    if(*dark == true){
+        file.setFileName(":/dark.qss");
+    }
+
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream stream(&file);
+    this->setStyleSheet(stream.readAll());
 }

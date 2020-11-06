@@ -22,10 +22,13 @@ public slots:
     void addTask();
     void removeTask(Task* task);
     void taskStatusChanged(Task* task);
+    void DarkModeToggle(bool dark);
 
 private:
     Ui::MainWindow *ui;
     QVector<Task*>  mTasks;
     void keyPressEvent(QKeyEvent* event);
+    bool darkMode;
+    void darkToggle(bool* off);
 };
 #endif // MAINWINDOW_H
