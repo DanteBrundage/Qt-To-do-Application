@@ -3,16 +3,20 @@
 #include "QDebug"
 #include "QInputDialog"
 #include "QKeyEvent"
+#include "QFontDatabase"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow), mTasks(), darkMode(false)
 {  
     ui->setupUi(this);
+
+    generateIcons();
 
     //sets stylesheet to lightmode by default
     darkToggle(&darkMode);
 
     connect(ui->addTaskButton, &QPushButton::clicked, this, &MainWindow::addTask);
     connect(ui->darkModeToggle, &QCheckBox::toggled, this, &MainWindow::DarkModeToggle);
+
     updateStatus();
 }
 
@@ -32,9 +36,10 @@ void MainWindow::addTask() {
         Task* task = new Task(name);
 
         connect(task, &Task::removed, this, &MainWindow::removeTask);
-
+        connect(task, &Task::statusChanged, this, &MainWindow::taskStatusChanged);
         mTasks.append(task);
         ui->tasksLayout->addWidget(task);
+        ui->taskCreator->clear();
         updateStatus();
     }
 
@@ -64,7 +69,7 @@ void MainWindow::updateStatus() {
     int remainingTasks = mTasks.size() - completedCount;
 
     ui->statusLabel->setText(
-                QString("Status: %1 todo / %2 completed").arg(remainingTasks).arg(completedCount)
+                QString("%1 Status: %2 todo / %3 completed").arg("\uf0ca").arg(remainingTasks).arg(completedCount)
                 );
 }
 
@@ -91,4 +96,22 @@ void MainWindow::darkToggle(bool* dark){
     file.open(QFile::ReadOnly | QFile::Text);
     QTextStream stream(&file);
     this->setStyleSheet(stream.readAll());
+}
+
+void MainWindow:: generateIcons(){
+
+    if (QFontDatabase::addApplicationFont(":/FontAwesome.otf") < 0)
+        qWarning() << "FontAwesome cannot be loaded !";
+
+    QFont font;
+    font.setFamily("FontAwesome");
+    font.setPixelSize(24);
+
+    ui->addTaskButton->setFont(font);
+    ui->addTaskButton->setText("\uf0fe");
+
+    ui->darkModeToggle->setFont(font);
+    ui->darkModeToggle->setText("\uf186");
+
+    ui->statusLabel->setFont(font);
 }

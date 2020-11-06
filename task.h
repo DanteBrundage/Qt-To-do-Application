@@ -27,6 +27,8 @@ signals:
 private slots:
     void checked(bool checked);
     void editTask();
+    void generateIcons();
+
 private:
     Ui::Task *ui;
 };

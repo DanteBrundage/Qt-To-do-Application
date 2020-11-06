@@ -2,10 +2,13 @@
 #include "ui_task.h"
 #include "QInputDialog"
 #include "QDebug"
+#include "QFontDatabase"
 
 Task::Task(const QString &name, QWidget *parent) : QWidget(parent), ui(new Ui::Task)
 {
     ui->setupUi(this);
+    generateIcons();
+
     setName(name);
 
     connect(ui->removeButton, &QPushButton::clicked, [this]{
@@ -51,6 +54,22 @@ void Task::editTask(){
     }
 }
 
+void Task::generateIcons(){
+    if (QFontDatabase::addApplicationFont(":/FontAwesome.otf") < 0)
+        qWarning() << "FontAwesome cannot be loaded !";
+
+    QFont font;
+    font.setFamily("FontAwesome");
+    font.setPixelSize(32);
+
+    ui->editButton->setFont(font); //this helps control the size, but not needed for icon necessarily
+    ui->editButton->setText("\uf044");
+
+    ui->removeButton->setFont(font);
+    ui->removeButton->setText("\uf1f8");
+    //ui->darkModeToggle->setText("\uf186");
+
+}
 Task::~Task()
 {
     delete ui;

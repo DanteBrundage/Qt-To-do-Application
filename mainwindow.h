@@ -30,5 +30,6 @@ private:
     void keyPressEvent(QKeyEvent* event);
     bool darkMode;
     void darkToggle(bool* off);
+    void generateIcons();
 };
 #endif // MAINWINDOW_H
