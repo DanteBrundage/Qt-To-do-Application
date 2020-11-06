@@ -6,6 +6,12 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow), mTasks()
 {
+    //set stylesheeet
+    QFile file(":/light.qss");
+    file.open(QFile::ReadOnly | QFile::Text);
+    QTextStream stream(&file);
+    this->setStyleSheet(stream.readAll());
+
     ui->setupUi(this);
 
     connect(ui->addTaskButton, &QPushButton::clicked, this, &MainWindow::addTask);

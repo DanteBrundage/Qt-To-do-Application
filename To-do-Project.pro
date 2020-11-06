@@ -20,6 +20,8 @@ SOURCES += \
     mainwindow.cpp \
     task.cpp
 
+RESOURCES = Resources/Resources/breeze.qrc
+
 HEADERS += \
     mainwindow.h \
     task.h
